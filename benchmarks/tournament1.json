@@ -1,0 +1,8 @@
+{
+    "tournament_name": "Torneo de prueba 1",
+    "start_date": "2022-01-01",
+    "end_date": "2022-01-10",
+    "start_time": "08:00:00",
+    "end_time": "18:00:00",
+    "participants": ["Jugador 1", "Jugador 2", "Jugador 3", "Jugador 4"]
+}
