@@ -35,3 +35,4 @@ while read -r line; do
 done < requirements.txt
 
 # TODO: Ejecutar la conversión de JSON a ICS.
+echo -e "\033[93;1mConvirtiendo JSON a ICS...\033[0m"
