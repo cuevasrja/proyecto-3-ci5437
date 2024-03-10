@@ -1,0 +1,26 @@
+{
+    "tournament_name": "Bundesliga",
+    "start_date": "2022-08-05",
+    "end_date": "2023-05-20",
+    "start_time": "13:30:00",
+    "end_time": "20:30:00",
+    "participants": [
+        "Arminia Bielefeld",
+        "Augsburg",
+        "Bayer Leverkusen",
+        "Bayern Munich",
+        "Bochum",
+        "Borussia Dortmund",
+        "Borussia Monchengladbach",
+        "Cologne",
+        "Eintracht Frankfurt",
+        "Freiburg",
+        "Hertha Berlin",
+        "Hoffenheim",
+        "Mainz 05",
+        "RB Leipzig",
+        "Stuttgart",
+        "Union Berlin",
+        "VfL Wolfsburg"
+    ]
+}

@@ -1,0 +1,29 @@
+{
+    "tournament_name": "Eredivisie",
+    "start_date": "2022-08-05",
+    "end_date": "2023-05-28",
+    "start_time": "18:00:00",
+    "end_time": "21:45:00",
+    "participants": [
+        "ADO Den Haag",
+        "AZ",
+        "Excelsior",
+        "Feyenoord",
+        "Fortuna Sittard",
+        "Go Ahead Eagles",
+        "Groningen",
+        "Heerenveen",
+        "Heracles",
+        "NEC",
+        "NAC Breda",
+        "PEC Zwolle",
+        "PSV Eindhoven",
+        "RKC Waalwijk",
+        "Sparta Rotterdam",
+        "Twente",
+        "Utrecht",
+        "Vitesse",
+        "VVV-Venlo",
+        "Willem II"
+    ]
+}

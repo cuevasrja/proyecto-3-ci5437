@@ -1,0 +1,25 @@
+{
+    "tournament_name": "LigaMX",
+    "start_date": "2022-07-15",
+    "end_date": "2023-05-30",
+    "start_time": "13:00:00",
+    "end_time": "23:00:00",
+    "participants": [
+        "Club America",
+        "Club Atlas",
+        "Club Tijuana",
+        "Club Leon",
+        "Club Necaxa",
+        "Club Pachuca",
+        "Club Queretaro",
+        "Cruz Azul",
+        "FC Juarez",
+        "Guadalajara",
+        "Monarcas Morelia",
+        "Monterrey",
+        "Puebla FC",
+        "Santos Laguna",
+        "Tigres UANL",
+        "Toluca FC"
+    ]
+}

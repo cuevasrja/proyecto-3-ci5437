@@ -1,0 +1,29 @@
+{
+    "tournament_name": "PremierLeague",
+    "start_date": "2022-08-13",
+    "end_date": "2023-05-21",
+    "start_time": "12:30:00",
+    "end_time": "20:00:00",
+    "participants": [
+        "Arsenal",
+        "Aston Villa",
+        "Brentford",
+        "Brighton & Hove Albion",
+        "Burnley",
+        "Chelsea",
+        "Crystal Palace",
+        "Everton",
+        "Leeds United",
+        "Leicester City",
+        "Liverpool",
+        "Manchester City",
+        "Manchester United",
+        "Newcastle United",
+        "Norwich City",
+        "Southampton",
+        "Tottenham Hotspur",
+        "Watford",
+        "West Ham United",
+        "Wolverhampton Wanderers"
+    ]
+}

@@ -1,0 +1,29 @@
+{
+    "tournament_name": "LaLiga",
+    "start_date": "2022-08-13",
+    "end_date": "2023-05-21",
+    "start_time": "13:00:00",
+    "end_time": "22:00:00",
+    "participants": [
+        "Alaves",
+        "Athletic Bilbao",
+        "Atletico Madrid",
+        "Barcelona",
+        "Cadiz",
+        "Celta Vigo",
+        "Elche",
+        "Espanyol",
+        "Getafe",
+        "Granada",
+        "Levante",
+        "Mallorca",
+        "Osasuna",
+        "Rayo Vallecano",
+        "Real Betis",
+        "Real Madrid",
+        "Real Sociedad",
+        "Sevilla",
+        "Valencia",
+        "Villarreal"
+    ]
+}

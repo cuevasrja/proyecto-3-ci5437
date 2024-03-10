@@ -1,0 +1,25 @@
+{
+    "tournament_name": "PrimeiraLiga",
+    "start_date": "2022-08-05",
+    "end_date": "2023-05-14",
+    "start_time": "14:00:00",
+    "end_time": "21:15:00",
+    "participants": [
+        "Belenenses",
+        "Boavista",
+        "Braga",
+        "Estoril",
+        "Famalicao",
+        "Farense",
+        "Maritimo",
+        "Moreirense",
+        "Paços de Ferreira",
+        "Portimonense",
+        "Porto",
+        "Santa Clara",
+        "Sporting CP",
+        "Tondela",
+        "Vitoria de Guimaraes",
+        "Vitoria de Setubal"
+    ]
+}
