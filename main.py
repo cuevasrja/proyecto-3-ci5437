@@ -228,6 +228,11 @@ def main():
     # cantidad de participantes
     n = len(data["participants"])
 
+    # el numero de participantes debe ser al menos 2, para que pueda ocurrir al menos un partido en el torneo
+    if n < 2:
+        print("ERROR! El torneo debe tener al menos 2 participantes.")
+        sys.exit(1)
+
     # cantidad de dias que durara el torneo
     days = (
         (datetime.strptime(end_date, "%Y-%m-%d"))
@@ -242,6 +247,16 @@ def main():
         datetime.combine(datetime.min, hora2) - datetime.combine(datetime.min, hora1)
     ).total_seconds() // 3600
     hours = int(diff_hours)
+
+    # verificar si los dias y horas son suficientes para que cada equipo compita
+    # ademas, cada equipo juega 2*(n-1) veces, entonces debe haber al menos 2*(n-1) dias
+    if not (
+        days >= 2 * (n - 1) and hours >= 2 and days * (hours // 2) >= 2 * n * (n - 1)
+    ):
+        print(
+            "ERROR! No hay suficientes dias y horas para planear las fechas de los partidos del torneo."
+        )
+        sys.exit(1)
 
     print(f" - Nombre del torneo: '{t_name}'")
     print(f" - Participantes: {', '.join(participants)}")
