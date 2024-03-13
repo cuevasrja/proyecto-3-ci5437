@@ -6,24 +6,30 @@
 # Uso: ./runner.sh <archivo JSON>
 # Ejemplo: ./runner.sh test.json
 
-# Verifica que la cantidad de argumentos sea la correcta.
-if [ $# -ne 1 ]; then
+# Verifica que la cantidad de argumentos sea la correcta. (Mayor o igual a 1) $# < 1
+if [ $# -lt 1 ]; then
     echo -e "\033[91;1mError:\033[0m Cantidad de argumentos incorrecta."
-    echo -e "\033[93;1mUso:\033[0m ./runner.sh <archivo JSON>"
+    echo -e "\033[93;1mUso:\033[0m ./runner.sh <archivo JSON> <archivo JSON> ... <archivo JSON>"
     exit 1
 fi
 
-# Verifica que el archivo JSON exista.
-if [ ! -f $1 ]; then
-    echo -e "\033[91;1mError:\033[0m El archivo $1 no existe."
-    exit 1
-fi
+FILES=$@
 
-# Verifica que el archivo JSON tenga extensión .json.
-if [[ $1 != *.json ]]; then
-    echo -e "\033[91;1mError:\033[0m El archivo $1 no tiene extensión .json."
-    exit 1
-fi
+# Verifica que cada archivo exista.
+for FILE in $FILES; do
+    if [ ! -f $FILE ]; then
+        echo -e "\033[91;1mError:\033[0m El archivo $FILE no existe."
+        exit 1
+    fi
+done
+
+# Verifica que los archivos sean de tipo JSON.
+for FILE in $FILES; do
+    if [[ $FILE != *.json ]]; then
+        echo -e "\033[91;1mError:\033[0m El archivo $FILE no es de tipo JSON."
+        exit 1
+    fi
+done
 
 # Verificamos si las librerias de requirements.txt estan instaladas
 printf "\033[93;1mVerificando librerías...\033[0m\n"
@@ -56,6 +62,10 @@ if [ ! -f glucose-4.2.1/simp/glucose ]; then
     printf "\033[92;1mCompletado!\033[0m\n\n"
 fi
 
-# Ejecutar la conversión de JSON a ICS.
+# Ejecutar la conversión de JSON a ICS para cada archivo.
 echo -e "\033[93;1mConvirtiendo JSON a ICS...\033[0m"
-python3 main.py $1
+for FILE in $FILES; do
+    printf "\033[93;1mConvirtiendo:\033[0m $FILE\n"
+    python3 main.py $FILE
+    # printf "\033[92;1mCompletado!\033[0m\n\n"
+done
