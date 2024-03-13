@@ -4,11 +4,12 @@ import math
 import sys
 from datetime import datetime
 
-# enumeraremos las variables de 0 a 2*n*days*hours-1
+
+# enumeraremos las variables de 1 a 2*n*days*hours
 # y lo almacenaremos en una tabla de 4 dimensiones
 # cada columna corresponde al numero del participante, el tipo de juego (local o visitante), el dia y la hora
 def table_variables(n, days, hours):
-    variable = 0
+    variable = 1
     table = []
     for i in range(n):
         table.append([])
