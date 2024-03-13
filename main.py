@@ -1,12 +1,14 @@
 import json
 import math
 import sys
+import os
 from typing import List
 from datetime import datetime
 from modules.cnf_maker import *
 from modules.ics_converter import *
 
 def main():
+    # Obtener el archivo JSON
     file = sys.argv[1]
     print(f"Abriendo el archivo \033[92;1m{file}\033[0m...")
 
@@ -15,11 +17,11 @@ def main():
         with open(file, "r") as file:
             data = json.load(file)
     except FileNotFoundError:
-        print(f"\033[91;1mERROR! No existe el archivo {file}.\033[0m")
+        print(f"\033[91;1mERROR:\033[0m No existe el archivo {file}.")
         sys.exit(1)
     except json.JSONDecodeError:
         print(
-            f"\033[91;1mERROR! Hay un problema con la forma en que formatea los datos JSON en el archivo {file}.\033[0m"
+            f"\033[91;1mERROR:\033[0m Hay un problema con la forma en que formatea los datos JSON en el archivo {file}."
         )
         sys.exit(1)
 
@@ -43,7 +45,7 @@ def main():
 
     # el numero de participantes debe ser al menos 2, para que pueda ocurrir al menos un partido en el torneo
     if n < 2:
-        print("\033[91;1mERROR! El torneo debe tener al menos 2 participantes.\033[0m")
+        print("\033[91;1mERROR:\033[0m El torneo debe tener al menos 2 participantes.")
         sys.exit(1)
 
     # cantidad de dias que durara el torneo
@@ -67,7 +69,7 @@ def main():
         days >= 2 * (n - 1) and hours >= 2 and days * (hours // 2) >= n * (n - 1)
     ):
         print(
-            "\033[91;1mERROR! No hay suficientes dias y horas para planear las fechas de los partidos del torneo.\033[0m"
+            "\033[91;1mERROR:\033[0m No hay suficientes dias y horas para planear las fechas de los partidos del torneo."
         )
         sys.exit(1)
 
@@ -78,7 +80,12 @@ def main():
 
     # traducir las restricciones a formato DIMACS
     todimacs(n, days, hours, file)
-    print("\033[92mArchivo de restricciones en formato DIMACS creado exitosamente!\033[92m")
+    print("Archivo de restricciones en formato DIMACS creado \033[92;1mexitosamente!\033[0m")
+
+    # Ejecutar el solver
+    print("\nResolviendo el problema...\n")
+    # TODO: Cuando se ejecute el solver, mandar la salida a un archivo con > {file.name.replace('.json', '_result.txt')}
+    os.system(f"./glucose-4.2.1/simp/glucose {file.name.replace('.json', '.cnf')}")
 
 
 if __name__ == "__main__":
