@@ -44,48 +44,15 @@ def get_number_clauses(n, days, hours):
 # una como "visitantes" y la otra como "locales".
 def c1(filename, table, n, days, hours):
     file = open(filename, "a")
-    matched = [[False] * n for _ in range(n)]
-    for x in range(n):
-        for y in range(n):
-            if x != y and not matched[x][y]:
-                matched[x][y] = True
-                matched[y][x] = True
-                for d1 in range(days):
-                    for d2 in range(days):
-                        if d1 == d2:
-                            continue
-                        for h1 in range(hours):
-                            for h2 in range(hours):
-                                # primera clausula
-                                p = table[x][0][d1][h1]
-                                file.write(f"{p} 0\n")
-                                # segunda clausula
-                                q = table[x][1][d2][h2]
-                                file.write(f"{q} 0\n")
-
-                                a = table[y][0][d1][h1]
-                                b = table[y][1][d2][h2]
-                                c = table[y][1][d1][h1]
-                                d = table[y][0][d2][h2]
-
-                                # clausula 3 (a∨b∨c∨d)
-                                file.write(f"{a} {b} {c} {d} 0\n")
-                                # clausula 4 (a∨b∨c∨¬d)
-                                file.write(f"{a} {b} {c} {-d} 0\n")
-                                # clausula 5 (a∨b∨¬c∨d)
-                                file.write(f"{a} {b} {-c} {d} 0\n")
-                                # clausula 6 (a∨¬b∨c∨d)
-                                file.write(f"{a} {-b} {c} {d} 0\n")
-                                # clausula 7 (a∨¬b∨c∨¬d)
-                                file.write(f"{a} {-b} {c} {-d} 0\n")
-                                # clausula 8 (a∨¬b∨¬c∨d)
-                                file.write(f"{a} {-b} {-c} {d} 0\n")
-                                # clausula 9 (¬a∨b∨c∨d)
-                                file.write(f"{-a} {b} {c} {d} 0\n")
-                                # clausula 10 (¬a∨b∨c∨¬d)
-                                file.write(f"{-a} {b} {c} {-d} 0\n")
-                                # clausula 11 (¬a∨b∨¬c∨d)
-                                file.write(f"{-a} {b} {-c} {d} 0\n")
+    for loc in range(n):
+        for vis in range(n):
+            if loc == vis:
+                continue
+            for d in range(days):
+                for h in range(hours):
+                    # se imprime clausula
+                    file.write(f"{table[loc][vis][d][h]} ")
+                file.write(f"0\n")
     file.flush()
 
 
@@ -94,33 +61,26 @@ def c1(filename, table, n, days, hours):
 def c2(filename, table, n, days, hours):
     file = open(filename, "a")
     for a in range(n):
-        for x in range(n):
-            if a != x:
-                for t1 in range(2):
-                    for t2 in range(2):
-                        for d in range(days):
-                            for h in range(hours):
-                                file.write(
-                                    f"{-table[a][t1][d][h]} {-table[x][t2][d][h]} 0\n"
-                                )
-                                if h + 1 < hours:
-                                    file.write(
-                                        f"{-table[a][t1][d][h]} {-table[x][t2][d][h+1]} 0\n"
-                                    )
+        for b in range(n):
+            if a == b:
+                continue
+                
+            for d in range(days):
+                for h1 in range(hours):
+                    J_abdh1 = table[a][b][d][h1]
+                    
+                    for x in range(n):
+                        for y in range(n):
+                            if x == y or (a == x and b == y):
+                                continue
+                            
+                            for h2 in range(hours):
+                                if h1 == h2 or h2 == h1 + 1:
+                                    continue
+                                J_xydh2 = table[x][y][d][h2]
+                                
+                                file.wirte(f"{-J_abdh1} {-J_xydh2}")
 
-    for t1 in range(2):
-        for t2 in range(2):
-            if t1 != t2:
-                for a in range(n):
-                    for d in range(days):
-                        for h in range(hours):
-                            file.write(
-                                f"{-table[a][t1][d][h]} {-table[x][t2][d][h]} 0\n"
-                            )
-                            if h + 1 < hours:
-                                file.write(
-                                    f"{-table[a][t1][d][h]} {-table[x][t2][d][h+1]} 0\n"
-                                )
     file.flush()
 
 
@@ -129,25 +89,23 @@ def c2(filename, table, n, days, hours):
 def c3(filename, table, n, days, hours):
     file = open(filename, "a")
 
-    for t1 in range(2):
-        for t2 in range(2):
-            if t1 != t2:
-                for h in range(hours):
-                    for a in range(n):
-                        for d in range(days):
-                            file.write(
-                                f"{-table[a][t1][d][h]} {-table[a][t2][d][h]} 0\n"
-                            )
+    for a in range(n):
+        for b in range(n):
+            if a == b:
+                continue
+            for c in range(n):
+                for d in range(days):
+                    for h1 in range(hours):
+                        for h2 in range(hours):
+                            if h1 == h2:
+                                continue
 
-    for h1 in range(hours):
-        for h2 in range(hours):
-            if h1 != h2:
-                for t in range(2):
-                    for a in range(n):
-                        for d in range(days):
-                            file.write(
-                                f"{-table[a][t][d][h1]} {-table[a][t][d][h2]} 0\n"
-                            )
+                            J_abdh1 = table[a][b][d][h1]
+                            
+                            file.write(f"{-J_abdh1} {-table[c][a][d][h2]} 0\n")
+                            file.write(f"{-J_abdh1} {-table[a][c][d][h2]} 0\n")
+                            file.write(f"{-J_abdh1} {-table[b][c][d][h2]} 0\n")
+                            file.write(f"{-J_abdh1} {-table[c][b][d][h2]} 0\n")
     file.flush()
 
 
@@ -156,14 +114,18 @@ def c3(filename, table, n, days, hours):
 def c4(filename, table, n, days, hours):
     file = open(filename, "a")
 
-    for d in range(days):
-        if d + 1 < days:
-            for a in range(n):
-                for t in range(2):
+    for a in range(n):
+        for b in range(n):
+            if a == b:
+                continue
+            for c in range(n):
+                for d in range(days):
                     for h1 in range(hours):
-                        p = table[a][t][d][h1]
                         for h2 in range(hours):
-                            file.write(f"{-p} {-table[a][t][d+1][h2]} 0\n")
+                            J_abdh1 = table[a][b][d][h1]
+                            
+                            file.write(f"{-J_abdh1} {-table[a][c][d+1][h2]} 0\n")
+                            file.write(f"{-J_abdh1} {-table[c][b][d+1][h2]} 0\n")
     file.flush()
 
 
