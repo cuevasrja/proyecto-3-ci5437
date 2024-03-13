@@ -85,7 +85,7 @@ def main():
     # Ejecutar el solver
     print("\nResolviendo el problema...\n")
     # TODO: Cuando se ejecute el solver, mandar la salida a un archivo con > {file.name.replace('.json', '_result.txt')}
-    os.system(f"./glucose-4.2.1/simp/glucose {file.name.replace('.json', '.cnf')}")
+    os.system(f"./glucose-4.2.1/simp/glucose -model {file.name.replace('.json', '.cnf')}")
 
 
 if __name__ == "__main__":
