@@ -40,7 +40,7 @@ while read -r line; do
     # Barra de progreso
     # La barra de progreso tiene el formato: [=====    ] 50%
     printf "\r["
-    for ((i=0; i < $((N*10/LIBS)); i++)); do printf "\033[93;1m=\033[0m"; done
+    for ((i=0; i < $((N*10/LIBS)); i++)); do printf "\033[92;1m=\033[0m"; done
     for ((i=$N; i < $((LIBS/10)); i++)); do printf " "; done
     printf "] %d%%" $((N*100/LIBS))
 done < requirements.txt
@@ -50,8 +50,10 @@ printf "\n\n"
 # hacemos make en la carpeta glucose-4.2.1/simp
 if [ ! -f glucose-4.2.1/simp/glucose ]; then
     printf "\033[93;1mCompilando solver...\033[0m\n"
-    make -C glucose-4.2.1/simp
-    printf "\033[92;1mCompletado!\033[0m\n"
+    cd glucose-4.2.1/simp
+    make > /dev/null
+    cd ../..
+    printf "\033[92;1mCompletado!\033[0m\n\n"
 fi
 
 # Ejecutar la conversión de JSON a ICS.

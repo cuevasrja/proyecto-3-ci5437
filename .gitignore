@@ -6,3 +6,7 @@
 __pycache__
 *.pyc
 modules/__pycache__
+
+# Solver
+glucose
+depend.mk
