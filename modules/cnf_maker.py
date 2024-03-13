@@ -25,12 +25,12 @@ def table_variables(n, days, hours):
 
 # obtener el numero total de clausulas para las 4 restricciones
 def get_number_clauses(n, days, hours):
-    c1 = (n * (n - 1) * days)
+    c1 = n * (n - 1)
     c2 = int(n * (n - 1) * days * hours * (n - (1/(n-1))) * (n - 1) * (2 - (1 / hours)))
     c3 = 4 * n * (n - 1) * n * days * hours * (hours - 1)
     c4 = 2 * n * (n - 1) * n * (days - 1) * hours * hours
     c5 = n * days * hours
-    return c1 + c3 + c4 + c5
+    return c1 + c2 + c3 + c4 + c5
 
 
 # restriccion 1 a CNF
@@ -46,7 +46,7 @@ def c1(filename, table, n, days, hours):
                 for h in range(hours):
                     # se imprime clausula
                     file.write(f"{table[loc][vis][d][h]} ")
-                file.write(f"0\n")
+            file.write(f"0\n")
     file.flush()
 
 
@@ -155,7 +155,7 @@ def todimacs(n, days, hours, filename):
     f.write(f"p cnf {number_of_variables} {number_of_clauses}\n")
     f.flush()
     c1(outputCointraints, table, n, days, hours)
-    #c2(outputCointraints, table, n, days, hours)
+    c2(outputCointraints, table, n, days, hours)
     c3(outputCointraints, table, n, days, hours)
     c4(outputCointraints, table, n, days, hours)
     c5(outputCointraints, table, n, days, hours)
