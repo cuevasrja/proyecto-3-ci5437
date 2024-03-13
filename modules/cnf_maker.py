@@ -129,6 +129,19 @@ def c4(filename, table, n, days, hours):
     file.flush()
 
 
+# restriccion 5 a CNF:
+# Un participante no puede jugar contra si mismo
+def c4(filename, table, n, days, hours):
+    file = open(filename, "a")
+
+    for a in range(n):
+        for d in range(days):
+            for h in range(hours):
+                
+                file.write(f"{-table[a][a][d][h]} 0\n")
+    file.flush()
+
+
 # traducir restricciones a formato dimacs
 def todimacs(n, days, hours, filename):
     # restamos horas menos 1, pues el ultimo partido de un dia no puede comenzar a la hora final
@@ -152,5 +165,6 @@ def todimacs(n, days, hours, filename):
     c2(outputCointraints, table, n, days, hours)
     c3(outputCointraints, table, n, days, hours)
     c4(outputCointraints, table, n, days, hours)
+    c5(outputCointraints, table, n, days, hours)
 
     return outputCointraints
