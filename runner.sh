@@ -45,10 +45,10 @@ while read -r line; do
     N=$((N+1))
     # Barra de progreso
     # La barra de progreso tiene el formato: [=====    ] 50%
-    printf "\r["
+    printf "["
     for ((i=0; i < $((N*10/LIBS)); i++)); do printf "\033[92;1m=\033[0m"; done
     for ((i=$N; i < $((LIBS/10)); i++)); do printf " "; done
-    printf "] %d%%" $((N*100/LIBS))
+    printf "] %d%%\r" $((N*100/LIBS))
 done < requirements.txt
 printf "\n\n"
 
@@ -72,13 +72,14 @@ else
     N_FILES=$#
     N=0
     for FILE in $FILES; do
-        printf "\033[93;1mConvirtiendo:\033[0m $FILE\n"
-        python3 main.py $FILE
-        N=$((N+1))
         printf "["
         for ((i=0; i < $((N*10/N_FILES)); i++)); do printf "\033[92;1m=\033[0m"; done
-        for ((i=$N; i < $((N_FILES/10)); i++)); do printf " "; done
-        printf "] %d%%" $((N*100/N_FILES))
-
+        printf "\033[92;1m>\033[0m"
+        printf "] %d%%\r" $((N*100/N_FILES))
+        python3 main.py $FILE > /dev/null
+        N=$((N+1))
     done
+    printf "["
+    for ((i=0; i < $((N*10/N_FILES)); i++)); do printf "\033[92;1m=\033[0m"; done
+    printf "] %d%%\r" $((N*100/N_FILES))
 fi
