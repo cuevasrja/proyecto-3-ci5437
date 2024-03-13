@@ -64,8 +64,21 @@ fi
 
 # Ejecutar la conversión de JSON a ICS para cada archivo.
 echo -e "\033[93;1mConvirtiendo JSON a ICS...\033[0m"
-for FILE in $FILES; do
-    printf "\033[93;1mConvirtiendo:\033[0m $FILE\n"
-    python3 main.py $FILE
-    # printf "\033[92;1mCompletado!\033[0m\n\n"
-done
+# Si solo es un archivo, no se imprime el nombre del archivo
+if [ $# -eq 1 ]; then
+    printf "\033[93;1mConvirtiendo:\033[0m $FILES\n"
+    python3 main.py $FILES
+else
+    N_FILES=$#
+    N=0
+    for FILE in $FILES; do
+        printf "\033[93;1mConvirtiendo:\033[0m $FILE\n"
+        python3 main.py $FILE
+        N=$((N+1))
+        printf "["
+        for ((i=0; i < $((N*10/N_FILES)); i++)); do printf "\033[92;1m=\033[0m"; done
+        for ((i=$N; i < $((N_FILES/10)); i++)); do printf " "; done
+        printf "] %d%%" $((N*100/N_FILES))
+
+    done
+fi
