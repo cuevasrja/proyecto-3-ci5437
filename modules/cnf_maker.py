@@ -13,7 +13,7 @@ def table_variables(n, days, hours):
     table = []
     for i in range(n):
         table.append([])
-        for j in range(2):
+        for j in range(n):
             table[i].append([])
             for k in range(days):
                 table[i][j].append([])
@@ -79,7 +79,7 @@ def c2(filename, table, n, days, hours):
                                     continue
                                 J_xydh2 = table[x][y][d][h2]
                                 
-                                file.wirte(f"{-J_abdh1} {-J_xydh2}")
+                                file.write(f"{-J_abdh1} {-J_xydh2}")
 
     file.flush()
 
@@ -119,7 +119,7 @@ def c4(filename, table, n, days, hours):
             if a == b:
                 continue
             for c in range(n):
-                for d in range(days):
+                for d in range(days-1):
                     for h1 in range(hours):
                         for h2 in range(hours):
                             J_abdh1 = table[a][b][d][h1]
@@ -131,7 +131,7 @@ def c4(filename, table, n, days, hours):
 
 # restriccion 5 a CNF:
 # Un participante no puede jugar contra si mismo
-def c4(filename, table, n, days, hours):
+def c5(filename, table, n, days, hours):
     file = open(filename, "a")
 
     for a in range(n):
