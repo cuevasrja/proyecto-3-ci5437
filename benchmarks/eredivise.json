@@ -2,8 +2,8 @@
     "tournament_name": "Eredivisie",
     "start_date": "2022-08-05",
     "end_date": "2023-05-28",
-    "start_time": "18:00:00",
-    "end_time": "21:45:00",
+    "start_time": "18:00:00.000",
+    "end_time": "21:45:00.000",
     "participants": [
         "ADO Den Haag",
         "AZ",

@@ -1,0 +1,8 @@
+# Results files
+*.cnf
+*.ics
+
+# Python
+__pycache__
+*.pyc
+modules/__pycache__

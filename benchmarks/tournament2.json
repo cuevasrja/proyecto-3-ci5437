@@ -2,7 +2,7 @@
     "tournament_name": "Torneo de prueba 2",
     "start_date": "2022-02-01",
     "end_date": "2022-02-10",
-    "start_time": "09:00:00",
-    "end_time": "19:00:00",
+    "start_time": "09:00:00.000",
+    "end_time": "19:00:00.000",
     "participants": ["Jugador 5", "Jugador 6", "Jugador 7", "Jugador 8"]
 }

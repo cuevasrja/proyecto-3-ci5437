@@ -2,8 +2,8 @@
     "tournament_name": "LaLiga",
     "start_date": "2022-08-13",
     "end_date": "2023-05-21",
-    "start_time": "13:00:00",
-    "end_time": "22:00:00",
+    "start_time": "13:00:00.000",
+    "end_time": "22:00:00.000",
     "participants": [
         "Alaves",
         "Athletic Bilbao",
