@@ -17,7 +17,7 @@ def table_variables(n, days, hours):
             table[i].append([])
             for k in range(days):
                 table[i][j].append([])
-                for l in range(hours):
+                for _ in range(hours):
                     table[i][j][k].append(variable)
                     variable += 1
     return table
@@ -25,18 +25,12 @@ def table_variables(n, days, hours):
 
 # obtener el numero total de clausulas para las 4 restricciones
 def get_number_clauses(n, days, hours):
-    c1 = (
-        int(math.factorial(n) / (2 * math.factorial(n - 2)))
-        * days
-        * (days - 1)
-        * hours
-        * hours
-        * 11
-    )
-    c2 = n * (n - 1) * 4 * days * (2 * hours - 1) + n * 2 * days * (2 * hours - 1)
-    c3 = 2 * hours * n * days + hours * (hours - 1) * 2 * n * days
-    c4 = 2 * hours * hours * n * (days - 1)
-    return c1 + c2 + c3 + c4
+    c1 = (n * (n - 1) * days)
+    c2 = int(n * (n - 1) * days * hours * (n - 0.5) * (n - 1) * (2 - (1 / hours)))
+    c3 = 4 * n * (n - 1) * n * days * hours * (hours - 1)
+    c4 = 2 * n * (n - 1) * n * (days - 1) * hours * hours
+    c5 = n * days * hours
+    return c1 + c2 + c3 + c4 + c5
 
 
 # restriccion 1 a CNF
@@ -75,11 +69,11 @@ def c2(filename, table, n, days, hours):
                                 continue
                             
                             for h2 in range(hours):
-                                if h1 == h2 or h2 == h1 + 1:
+                                if h1 != h2 and h2 != h1 + 1:
                                     continue
                                 J_xydh2 = table[x][y][d][h2]
                                 
-                                file.write(f"{-J_abdh1} {-J_xydh2}")
+                                file.write(f"{-J_abdh1} {-J_xydh2} 0\n")
 
     file.flush()
 
@@ -148,7 +142,7 @@ def todimacs(n, days, hours, filename):
     hours = hours - 1
 
     # numero de variables en total
-    number_of_variables = 2 * n * days * hours
+    number_of_variables = n * n * days * hours
     # creamos la tabla de variables
     table = table_variables(n, days, hours)
 
