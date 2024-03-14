@@ -37,10 +37,11 @@ printf "\033[93;1mVerificando librerías...\033[0m\n"
 N=0
 LIBS=$(wc -l < requirements.txt)
 while read -r line; do
+    # Obtenemos el nombre de la librería. El formato es: <nombre>==<versión>
     PACKAGE=$(echo $line | cut -d'=' -f1)
-    if ! pip show -q $PACKAGE; then
-        echo -e "\033[93;1mInstalando librería:\033[0m $PACKAGE"
-        pip install $PACKAGE
+    if ! pip3 show $PACKAGE > /dev/null 2>&1; then
+        printf "\033[93;1mInstalando:\033[0m $PACKAGE\n"
+        pip3 install $line > /dev/null
     fi
     N=$((N+1))
     # Barra de progreso
@@ -50,7 +51,7 @@ while read -r line; do
     for ((i=$N; i < $((LIBS/10)); i++)); do printf " "; done
     printf "] %d%%\r" $((N*100/LIBS))
 done < requirements.txt
-printf "\n\n"
+echo -e "\n"
 
 # Revisamos si el solver esta compilado. En caso de que no lo este, 
 # hacemos make en la carpeta glucose-4.2.1/simp
