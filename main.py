@@ -72,13 +72,13 @@ def main():
     print(f" - Con \033[92;1m{hours}\033[0m horas por dia\n")
 
     # traducir las restricciones a formato DIMACS
-    todimacs(n, days, hours, file)
+    cnf_file: str = todimacs(n, days, hours, file)
     print("Archivo de restricciones en formato DIMACS creado \033[92;1mexitosamente!\033[0m")
 
     # Ejecutar el solver
     print("\nResolviendo el problema...\n")
     solver: Glucose41 = Glucose41()
-    if solver.load_cnf(sys.argv[1].replace('.json', '.cnf')) and solver.solve():
+    if solver.load_cnf(cnf_file) and solver.solve():
         model: List[int] = solver.model()
         if all(n <= 0 for n in model):
             print("\033[91;1mERROR:\033[0m No hay solucion para el problema.")

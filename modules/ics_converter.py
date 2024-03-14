@@ -35,7 +35,7 @@ def make_ics(json_data: dict, model: List[int]) -> None:
     table: List[List[List[List[int]]]] = table_variables(n, days, hours-1)
 
     # Crear un nuevo calendario
-    c = ics.Calendar()
+    c: ics.Calendar = ics.Calendar()
 
     # Crear un evento para cada partido
     for a in range(n):
@@ -50,11 +50,11 @@ def make_ics(json_data: dict, model: List[int]) -> None:
                         e.name = f"{participants[a]} vs {participants[b]}"
                         # Calcular la fecha y hora del evento segun el indice de la tabla de variables
                         # Inicio del evento
-                        e_date = calc_day(start_date, d)
-                        e_start_time = calc_time(start_time, h)
+                        e_date: str = calc_day(start_date, d)
+                        e_start_time: str = calc_time(start_time, h)
                         e.begin = f"{e_date} {e_start_time}"
                         # Fin del evento
-                        e_end_time = calc_time(e_start_time, 2)
+                        e_end_time: str = calc_time(e_start_time, 2)
                         e.end = f"{e_date} {e_end_time}"
                         # Agregar el evento al calendario
                         c.events.add(e)

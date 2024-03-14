@@ -8,9 +8,9 @@ from datetime import datetime
 # enumeraremos las variables de 1 a 2*n*days*hours
 # y lo almacenaremos en una tabla de 4 dimensiones
 # cada columna corresponde al numero del participante, el tipo de juego (local o visitante), el dia y la hora
-def table_variables(n, days, hours):
-    variable = 1
-    table = []
+def table_variables(n: int, days: int, hours: int) -> List[List[List[List[int]]]]:
+    variable: int = 1
+    table: List[List[List[List[int]]]] = []
     for i in range(n):
         table.append([])
         for j in range(n):
@@ -24,20 +24,20 @@ def table_variables(n, days, hours):
 
 
 # obtener el numero total de clausulas para las 4 restricciones
-def get_number_clauses(n, days, hours):
-    c1 = n * (n - 1)
-    c2 = int(n * (n - 1) * days * hours * (n - (1/(n-1))) * (n - 1) * (2 - (1 / hours)))
-    c3 = 4 * n * (n - 1) * n * days * hours * (hours - 1)
-    c4 = 2 * n * (n - 1) * n * (days - 1) * hours * hours
-    c5 = n * days * hours
+def get_number_clauses(n: int, days: int, hours: int) -> int:
+    c1: int = n * (n - 1)
+    c2: int = int(n * (n - 1) * days * hours * (n - (1/(n-1))) * (n - 1) * (2 - (1 / hours)))
+    c3: int = 4 * n * (n - 1) * n * days * hours * (hours - 1)
+    c4: int = 2 * n * (n - 1) * n * (days - 1) * hours * hours
+    c5: int = n * days * hours
     return c1 + c2 + c3 + c4 + c5
 
 
 # restriccion 1 a CNF
 # todos los participantes deben jugar dos veces con cada uno de los otros participantes
 # una como "visitantes" y la otra como "locales".
-def c1(filename, table, n, days, hours):
-    file = open(filename, "a")
+def c1(filename: str, table: List[List[List[List[int]]]], n: int, days: int, hours: int) -> None:
+    file: TextIOWrapper = open(filename, "a")
     for loc in range(n):
         for vis in range(n):
             if loc == vis:
@@ -52,8 +52,8 @@ def c1(filename, table, n, days, hours):
 
 # restriccion 2 a CNF
 # Dos juegos no pueden ocurrir al mismo tiempo
-def c2(filename, table, n, days, hours):
-    file = open(filename, "a")
+def c2(filename: str, table: List[List[List[List[int]]]], n: int, days: int, hours: int) -> None:
+    file: TextIOWrapper = open(filename, "a")
     for a in range(n):
         for b in range(n):
             if a == b:
@@ -71,7 +71,7 @@ def c2(filename, table, n, days, hours):
                             for h2 in range(hours):
                                 if h1 != h2 and h2 != h1 + 1:
                                     continue
-                                J_xydh2 = table[x][y][d][h2]
+                                J_xydh2: int = table[x][y][d][h2]
                                 
                                 file.write(f"{-J_abdh1} {-J_xydh2} 0\n")
     file.flush()
@@ -79,8 +79,8 @@ def c2(filename, table, n, days, hours):
 
 # restriccion 3 a CNF
 # Un participante puede jugar a lo sumo una vez por dia
-def c3(filename, table, n, days, hours):
-    file = open(filename, "a")
+def c3(filename: str, table: List[List[List[List[int]]]], n: int, days: int, hours: int) -> None:
+    file: TextIOWrapper = open(filename, "a")
 
     for a in range(n):
         for b in range(n):
@@ -93,7 +93,7 @@ def c3(filename, table, n, days, hours):
                             if h1 == h2:
                                 continue
 
-                            J_abdh1 = table[a][b][d][h1]
+                            J_abdh1: int = table[a][b][d][h1]
                             
                             file.write(f"{-J_abdh1} {-table[c][a][d][h2]} 0\n")
                             file.write(f"{-J_abdh1} {-table[a][c][d][h2]} 0\n")
@@ -104,8 +104,8 @@ def c3(filename, table, n, days, hours):
 
 # restriccion 4 a CNF:
 # Un participante no puede jugar de "visitante" en dos dias consecutivos, ni de "local" dos dias seguidos
-def c4(filename, table, n, days, hours):
-    file = open(filename, "a")
+def c4(filename: str, table: List[List[List[List[int]]]], n: int, days: int, hours: int) -> None:
+    file: TextIOWrapper = open(filename, "a")
 
     for a in range(n):
         for b in range(n):
@@ -115,7 +115,7 @@ def c4(filename, table, n, days, hours):
                 for d in range(days-1):
                     for h1 in range(hours):
                         for h2 in range(hours):
-                            J_abdh1 = table[a][b][d][h1]
+                            J_abdh1: int = table[a][b][d][h1]
                             
                             file.write(f"{-J_abdh1} {-table[a][c][d+1][h2]} 0\n")
                             file.write(f"{-J_abdh1} {-table[c][b][d+1][h2]} 0\n")
@@ -124,8 +124,8 @@ def c4(filename, table, n, days, hours):
 
 # restriccion 5 a CNF:
 # Un participante no puede jugar contra si mismo
-def c5(filename, table, n, days, hours):
-    file = open(filename, "a")
+def c5(filename: str, table: List[List[List[List[int]]]], n: int, days: int, hours: int) -> None:
+    file: TextIOWrapper = open(filename, "a")
 
     for a in range(n):
         for d in range(days):
@@ -136,22 +136,22 @@ def c5(filename, table, n, days, hours):
 
 
 # traducir restricciones a formato dimacs
-def todimacs(n, days, hours, filename):
+def todimacs(n: int, days: int, hours: int, filename: str) -> str:
     # restamos horas menos 1, pues el ultimo partido de un dia no puede comenzar a la hora final
-    hours = hours - 1
+    hours: int = hours - 1
 
     # numero de variables en total
-    number_of_variables = n * n * days * hours
+    number_of_variables: int = n * n * days * hours
     # creamos la tabla de variables
-    table = table_variables(n, days, hours)
+    table: List[List[List[List[int]]]] = table_variables(n, days, hours)
 
     # calculamos el numero total de clausulas
-    number_of_clauses = get_number_clauses(n, days, hours)
+    number_of_clauses: int = get_number_clauses(n, days, hours)
     # nombre del archivo de salida
-    outputCointraints = filename.name.replace(".json", ".cnf")
+    outputCointraints: str = filename.name.replace(".json", ".cnf")
 
     # escribimos las clausulas en el archivo de salida
-    f = open(outputCointraints, "w")
+    f: TextIOWrapper = open(outputCointraints, "w")
     f.write(f"p cnf {number_of_variables} {number_of_clauses}\n")
     f.flush()
     c1(outputCointraints, table, n, days, hours)
