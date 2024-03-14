@@ -44,7 +44,7 @@ def make_ics(json_data: dict, model: List[int]) -> None:
                 continue
             for d in range(days):
                 for h in range(hours-1):
-                    if model[table[a][b][d][h]] > 0:
+                    if model[table[a][b][d][h] - 1] > 0:
                         # Crear el evento
                         e: ics.Event = ics.Event()
                         e.name = f"{participants[a]} vs {participants[b]}"
