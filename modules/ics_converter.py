@@ -37,6 +37,8 @@ def make_ics(json_data: dict, model: List[int]) -> None:
     # Crear un nuevo calendario
     c: ics.Calendar = ics.Calendar()
 
+    print(f"📅 \033[1;34mCalendario de fechas: \n\033[0m")
+
     # Crear un evento para cada partido
     for a in range(n):
         for b in range(n):
@@ -61,13 +63,13 @@ def make_ics(json_data: dict, model: List[int]) -> None:
                         e.end = f"{e_date} {e_end_time}"
                         # Agregar el evento al calendario
                         c.events.add(e)
-                        print(f"Se ha creado el evento {e.name} el {e_date} a las {e_start_time}.")
-                        print(f"El evento {e.name} termina a las {e_end_time}.\n")
+                        print(f"⭐ Se ha creado el evento {e.name} el {e_date} a las {e_start_time}.")
+                        print(f"⭐ El evento {e.name} termina a las {e_end_time}.\n")
 
     # Creamos el archivo .ics
     try:
         with open(f"{t_name}.ics", "r") as file:
-            print(f"\033[93;1mWARNING:\033[0m El archivo {t_name}.ics ya existe, se sobreescribira.")
+            print(f"❗ \033[1;31mWARNING:\033[0m El archivo {t_name}.ics ya existe, se sobreescribira.")
             with open(f"{t_name}.ics", "w") as file:
                 file.writelines(c)
     except FileNotFoundError:

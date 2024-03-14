@@ -10,7 +10,9 @@ from modules.ics_converter import *
 from modules.time_converter import *
 
 def main():
-    time_start: datetime = datetime.now()
+    total_time_start: datetime = datetime.now()
+    print("\n👋 \033[92;1m¡Bienvenido al Planificador de Torneos!\033[0m\n")
+
     # Obtener el archivo JSON
     file: str = sys.argv[1]
     print(f"Abriendo el archivo \033[92;1m{file}\033[0m...")
@@ -72,13 +74,25 @@ def main():
     print(f" - El torneo durara \033[92;1m{days}\033[0m dias")
     print(f" - Con \033[92;1m{hours}\033[0m horas por dia\n")
 
+    time_start: datetime = datetime.now()
     # traducir las restricciones a formato DIMACS
     cnf_file: str = todimacs(n, days, hours, file)
     print("Archivo de restricciones en formato DIMACS creado \033[92;1mexitosamente!\033[0m")
 
+    # imprimir tiempo en que toma en traducir las restricciones a formato DIMACS
+    time_end: datetime = datetime.now()
+    time_taken: str = str(time_end - time_start)
+    print(f"\n⌛ Tiempo que tomo en convertir las restricciones en formato DIMACS: \033[92;1m{time_taken}\033[0m")
+
     # Ejecutar el solver
-    print("\nResolviendo el problema...\n")
+    print("\n\033[1;33mResolviendo el problema...\033[0m\n")
+    time_start: datetime = datetime.now()
     solver: Glucose41 = Glucose41()
+
+    # Calcular el tiempo que tomo resolver el problema SAT
+    time_end: datetime = datetime.now()
+    time_taken: str = str(time_end - time_start)
+
     if solver.load_cnf(cnf_file) and solver.solve():
         model: List[int] = solver.model()
         if all(n <= 0 for n in model):
@@ -86,18 +100,18 @@ def main():
             sys.exit(1)
         else:
             print("\033[92;1mEl problema ha sido resuelto exitosamente!\033[0m")
-            print("Las variables que son verdaderas son:")
+            print("\nLas variables que son verdaderas son:")
             positivas = [i for i in model if i > 0]
             print(positivas)
+    print(f"\n⌛ Tiempo que tomo Glucose en resolver el problema: \033[92;1m{time_taken}\033[0m")
     model: List[int] = solver.model()
     # Convertir las variables a formato ICS
-    print("\nConvirtiendo las variables a formato ICS...")
+    print("\n\033[1;33mConvirtiendo las variables a formato ICS...\033[0m\n")
     make_ics(data, model)
 
-    # Calcular el tiempo que tomo resolver el problema
     time_end: datetime = datetime.now()
-    time_taken: str = str(time_end - time_start)
-    print(f"\nTiempo que tomo resolver el problema: \033[92;1m{time_taken}\033[0m")
+    time_taken: str = str(time_end - total_time_start)
+    print(f"\n⌛ Tiempo total que toma en resolver el problema: \033[92;1m{time_taken}\033[0m\n")
 
     # Escribimos en el archivo times.txt el tiempo que tomo resolver el problema con el nombre del archivo
     os.system(f"echo '{file.name}\t{time_taken}' >> times.txt")
