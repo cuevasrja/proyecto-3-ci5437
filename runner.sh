@@ -34,7 +34,7 @@ done
 FILE_TIME="times.txt"
 # Verificamos si el archivo de tiempos no existe, si no existe, lo creamos.
 if [ ! -f $FILE_TIME ]; then
-    echo -e "Archivo\tTiempo (segundos)" > $FILE_TIME
+    echo -e "Archivo\t Convertir a DIMCAS\t Resolver SAT\tTiempo Total" > $FILE_TIME
 fi
 
 # Verificamos si las librerias de requirements.txt estan instaladas

@@ -81,17 +81,13 @@ def main():
 
     # imprimir tiempo en que toma en traducir las restricciones a formato DIMACS
     time_end: datetime = datetime.now()
-    time_taken: str = str(time_end - time_start)
-    print(f"\n⌛ Tiempo que tomo en convertir las restricciones en formato DIMACS: \033[92;1m{time_taken}\033[0m")
+    time_taken_1: str = str(time_end - time_start)
+    print(f"\n⌛ Tiempo que tomo en convertir las restricciones en formato DIMACS: \033[92;1m{time_taken_1}\033[0m")
 
     # Ejecutar el solver
     print("\n\033[1;33mResolviendo el problema...\033[0m\n")
     time_start: datetime = datetime.now()
     solver: Glucose41 = Glucose41()
-
-    # Calcular el tiempo que tomo resolver el problema SAT
-    time_end: datetime = datetime.now()
-    time_taken: str = str(time_end - time_start)
 
     if solver.load_cnf(cnf_file) and solver.solve():
         model: List[int] = solver.model()
@@ -100,19 +96,22 @@ def main():
             sys.exit(1)
         else:
             print("\033[92;1mEl problema ha sido resuelto exitosamente!\033[0m")
+    # Calcular el tiempo que tomo resolver el problema SAT
+    time_end: datetime = datetime.now()
+    time_taken_2: str = str(time_end - time_start)
 
-    print(f"\n⌛ Tiempo que tomo Glucose en resolver el problema: \033[92;1m{time_taken}\033[0m")
+    print(f"\n⌛ Tiempo que tomo Glucose en resolver el problema: \033[92;1m{time_taken_2}\033[0m")
     model: List[int] = solver.model()
     # Convertir las variables a formato ICS
     print("\n\033[1;33mConvirtiendo las variables a formato ICS...\033[0m\n")
     make_ics(data, model)
 
     time_end: datetime = datetime.now()
-    time_taken: str = str(time_end - total_time_start)
-    print(f"\n⌛ Tiempo total que toma en resolver el problema: \033[92;1m{time_taken}\033[0m\n")
+    total_time: str = str(time_end - total_time_start)
+    print(f"\n⌛ Tiempo total que toma en resolver el problema: \033[92;1m{total_time}\033[0m\n")
 
     # Escribimos en el archivo times.txt el tiempo que tomo resolver el problema con el nombre del archivo
-    os.system(f"echo '{file.name}\t{time_taken}' >> times.txt")
+    os.system(f"echo '{file.name}\t{time_taken_1}\t{time_taken_2}\t{total_time}' >> times.txt")
 
 
 if __name__ == "__main__":
