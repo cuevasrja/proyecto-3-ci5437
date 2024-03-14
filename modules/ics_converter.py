@@ -65,6 +65,8 @@ def make_ics(json_data: dict, model: List[int]) -> None:
     try:
         with open(f"{t_name}.ics", "r") as file:
             print(f"\033[93;1mWARNING:\033[0m El archivo {t_name}.ics ya existe, se sobreescribira.")
+            with open(f"{t_name}.ics", "w") as file:
+                file.writelines(c)
     except FileNotFoundError:
         # Si el archivo no existe, lo creamos
         with open(f"{t_name}.ics", "w") as file:
