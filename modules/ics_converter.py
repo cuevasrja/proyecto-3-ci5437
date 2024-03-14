@@ -48,6 +48,9 @@ def make_ics(json_data: dict, model: List[int]) -> None:
                         # Crear el evento
                         e: ics.Event = ics.Event()
                         e.name = f"{participants[a]} vs {participants[b]}"
+                        e.description = f"Partido entre {participants[a]} y {participants[b]}\n"
+                        e.description += f"Local: {participants[a]}\n"
+                        e.description += f"Visitante: {participants[b]}"
                         # Calcular la fecha y hora del evento segun el indice de la tabla de variables
                         # Inicio del evento
                         e_date: str = calc_day(start_date, d)
