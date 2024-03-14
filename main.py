@@ -86,9 +86,8 @@ def main():
     # Ejecutar el solver
     print("\nResolviendo el problema...\n")
     solver = Glucose41()
-    print(solver.load_cnf(sys.argv[1].replace('.json', '.cnf')))
-    solver.solve()
-    print(solver.model())
+    if solver.load_cnf(sys.argv[1].replace('.json', '.cnf')) and solver.solve():
+        print(solver.model())
 
 
 if __name__ == "__main__":
