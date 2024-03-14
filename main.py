@@ -100,9 +100,7 @@ def main():
             sys.exit(1)
         else:
             print("\033[92;1mEl problema ha sido resuelto exitosamente!\033[0m")
-            print("\nLas variables que son verdaderas son:")
-            positivas = [i for i in model if i > 0]
-            print(positivas)
+
     print(f"\n⌛ Tiempo que tomo Glucose en resolver el problema: \033[92;1m{time_taken}\033[0m")
     model: List[int] = solver.model()
     # Convertir las variables a formato ICS
