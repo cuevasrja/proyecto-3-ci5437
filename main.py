@@ -4,6 +4,7 @@ import sys
 import os
 from typing import List
 from datetime import datetime
+from optilog.solvers.sat import Glucose41
 from modules.cnf_maker import *
 from modules.ics_converter import *
 
@@ -84,8 +85,10 @@ def main():
 
     # Ejecutar el solver
     print("\nResolviendo el problema...\n")
-    # TODO: Cuando se ejecute el solver, mandar la salida a un archivo con > {file.name.replace('.json', '_result.txt')}
-    os.system(f"./glucose-4.2.1/simp/glucose -model {file.name.replace('.json', '.cnf')}")
+    solver = Glucose41()
+    print(solver.load_cnf(sys.argv[1].replace('.json', '.cnf')))
+    solver.solve()
+    print(solver.model())
 
 
 if __name__ == "__main__":

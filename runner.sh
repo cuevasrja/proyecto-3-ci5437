@@ -53,16 +53,6 @@ while read -r line; do
 done < requirements.txt
 echo -e "\n"
 
-# Revisamos si el solver esta compilado. En caso de que no lo este, 
-# hacemos make en la carpeta glucose-4.2.1/simp
-if [ ! -f glucose-4.2.1/simp/glucose ]; then
-    printf "\033[93;1mCompilando solver...\033[0m\n"
-    cd glucose-4.2.1/simp
-    make > /dev/null
-    cd ../..
-    printf "\033[92;1mCompletado!\033[0m\n\n"
-fi
-
 # Ejecutar la conversión de JSON a ICS para cada archivo.
 echo -e "\033[93;1mConvirtiendo JSON a ICS...\033[0m"
 # Si solo es un archivo, no se imprime el nombre del archivo
