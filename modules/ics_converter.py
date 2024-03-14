@@ -26,13 +26,10 @@ def make_ics(json_data: dict, model: List[int]) -> None:
     # Obtenemos los siguientes datos
     # Cantidad de participantes
     n: int = len(json_data["participants"])
-    print(f"Hay {n} participantes.")
     # Cantidad de dias que durara el torneo
     days: int = diff_days(start_date, end_date)
-    print(f"El torneo durara {days} dias.")
     # Calcular la diferencia en horas
     hours: int = diff_hours(start_time, end_time)
-    print(f"El torneo durara {hours} horas.")
 
     # Obtener la tabla de variables
     table: List[List[List[List[int]]]] = table_variables(n, days, hours-1)
