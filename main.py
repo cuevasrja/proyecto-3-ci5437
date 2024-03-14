@@ -10,6 +10,7 @@ from modules.ics_converter import *
 from modules.time_converter import *
 
 def main():
+    time_start: datetime = datetime.now()
     # Obtener el archivo JSON
     file: str = sys.argv[1]
     print(f"Abriendo el archivo \033[92;1m{file}\033[0m...")
@@ -92,6 +93,14 @@ def main():
     # Convertir las variables a formato ICS
     print("\nConvirtiendo las variables a formato ICS...")
     make_ics(data, model)
+
+    # Calcular el tiempo que tomo resolver el problema
+    time_end: datetime = datetime.now()
+    time_taken: str = str(time_end - time_start)
+    print(f"\nTiempo que tomo resolver el problema: \033[92;1m{time_taken}\033[0m")
+
+    # Escribimos en el archivo times.txt el tiempo que tomo resolver el problema con el nombre del archivo
+    os.system(f"echo '{file.name}\t{time_taken}' >> times.txt")
 
 
 if __name__ == "__main__":

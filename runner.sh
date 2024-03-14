@@ -31,6 +31,13 @@ for FILE in $FILES; do
     fi
 done
 
+FILE_TIME="times.txt"
+# Verificamos si el archivo de tiempos existe
+if [ -f $FILE_TIME ]; then
+    rm $FILE_TIME
+fi
+echo -e "Archivo\tTiempo (segundos)" > $FILE_TIME
+
 # Verificamos si las librerias de requirements.txt estan instaladas
 printf "\033[93;1mVerificando librerías...\033[0m\n"
 # Declaramos un contador para la barra de progreso
@@ -73,4 +80,6 @@ else
     printf "["
     for ((i=0; i < $((N*10/N_FILES)); i++)); do printf "\033[92;1m=\033[0m"; done
     printf "] %d%%\r" $((N*100/N_FILES))
+    echo -e "\n"
 fi
+echo -e "El tiempo de ejecución de cada archivo se encuentra en el archivo \033[93;1m$FILE_TIME\033[0m."
