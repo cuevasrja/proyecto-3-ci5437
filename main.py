@@ -7,10 +7,11 @@ from datetime import datetime
 from optilog.solvers.sat import Glucose41
 from modules.cnf_maker import *
 from modules.ics_converter import *
+from modules.time_converter import *
 
 def main():
     # Obtener el archivo JSON
-    file = sys.argv[1]
+    file: str = sys.argv[1]
     print(f"Abriendo el archivo \033[92;1m{file}\033[0m...")
 
     # intentar abrir el archivo JSON
@@ -28,21 +29,21 @@ def main():
 
     # guardar los datos en variables
     # nombre del torneo
-    t_name = data["tournament_name"]
+    t_name: str = data["tournament_name"]
     # fecha de inicio del torneo
-    start_date = data["start_date"]
+    start_date: str = data["start_date"]
     # fecha final del torneo
-    end_date = data["end_date"]
+    end_date: str = data["end_date"]
     # hora de inicio de los juegos en cada dia
-    start_time = data["start_time"]
+    start_time: str = data["start_time"]
     # hora final de los juegos en cada dia
-    end_time = data["end_time"]
+    end_time: str = data["end_time"]
     # participantes
-    participants = data["participants"]
+    participants: List[str] = data["participants"]
 
     # obtenemos los siguientes datos
     # cantidad de participantes
-    n = len(data["participants"])
+    n: int = len(data["participants"])
 
     # el numero de participantes debe ser al menos 2, para que pueda ocurrir al menos un partido en el torneo
     if n < 2:
@@ -50,19 +51,10 @@ def main():
         sys.exit(1)
 
     # cantidad de dias que durara el torneo
-    days = (
-        (datetime.strptime(end_date, "%Y-%m-%d"))
-        - datetime.strptime(start_date, "%Y-%m-%d")
-    ).days + 1
+    days: int = diff_days(start_date, end_date)
 
-    # cantidad de horas que durara el torneo
-    hora1 = datetime.strptime(start_time, "%H:%M:%S.%f").time()
-    hora2 = datetime.strptime(end_time, "%H:%M:%S.%f").time()
     # Calcular la diferencia en horas
-    diff_hours = (
-        datetime.combine(datetime.min, hora2) - datetime.combine(datetime.min, hora1)
-    ).total_seconds() // 3600
-    hours = int(diff_hours)
+    hours: int = diff_hours(start_time, end_time)
 
     # verificar si los dias y horas son suficientes para que cada equipo compita
     # ademas, cada equipo juega 2*(n-1) veces, entonces debe haber al menos 2*(n-1) dias
@@ -85,9 +77,21 @@ def main():
 
     # Ejecutar el solver
     print("\nResolviendo el problema...\n")
-    solver = Glucose41()
+    solver: Glucose41 = Glucose41()
     if solver.load_cnf(sys.argv[1].replace('.json', '.cnf')) and solver.solve():
-        print(solver.model())
+        model: List[int] = solver.model()
+        if all(n <= 0 for n in model):
+            print("\033[91;1mERROR:\033[0m No hay solucion para el problema.")
+            sys.exit(1)
+        else:
+            print("\033[92;1mEl problema ha sido resuelto exitosamente!\033[0m")
+            print("Las variables que son verdaderas son:")
+            positivas = [i for i in model if i > 0]
+            print(positivas)
+    model: List[int] = solver.model()
+    # Convertir las variables a formato ICS
+    print("\nConvirtiendo las variables a formato ICS...")
+    make_ics(data, model)
 
 
 if __name__ == "__main__":
