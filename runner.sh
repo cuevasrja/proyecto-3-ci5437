@@ -32,11 +32,10 @@ for FILE in $FILES; do
 done
 
 FILE_TIME="times.txt"
-# Verificamos si el archivo de tiempos existe
-if [ -f $FILE_TIME ]; then
-    rm $FILE_TIME
+# Verificamos si el archivo de tiempos no existe, si no existe, lo creamos.
+if [ ! -f $FILE_TIME ]; then
+    echo -e "Archivo\tTiempo (segundos)" > $FILE_TIME
 fi
-echo -e "Archivo\tTiempo (segundos)" > $FILE_TIME
 
 # Verificamos si las librerias de requirements.txt estan instaladas
 printf "\033[93;1mVerificando librerías...\033[0m\n"
