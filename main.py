@@ -67,7 +67,7 @@ def main():
         print(
             "\033[91;1mERROR:\033[0m No hay suficientes dias y horas para planear las fechas de los partidos del torneo."
         )
-        os.system(f"echo '{file.name}\t-\t-\t-' >> times.txt")
+        os.system(f"echo '{file.name}\t-\t-\t-\tUNSAT' >> times.txt")
         sys.exit(1)
 
     print(f" - Nombre del torneo: \033[92;1m'{t_name}'\033[0m")
@@ -93,8 +93,10 @@ def main():
     if solver.load_cnf(cnf_file) and solver.solve():
         model: List[int] = solver.model()
         if all(n <= 0 for n in model):
+            time_end: datetime = datetime.now()
+            time_taken_2: str = str(time_end - time_start)
             print("\033[91;1mERROR:\033[0m No hay solucion para el problema.")
-            os.system(f"echo '{file.name}\t-\t-\t-' >> times.txt")
+            os.system(f"echo '{file.name}\t{time_taken_1}\t{time_taken_2}\t-\tUNSAT' >> times.txt")
             sys.exit(1)
         else:
             print("\033[92;1mEl problema ha sido resuelto exitosamente!\033[0m")
@@ -113,7 +115,7 @@ def main():
     print(f"\n⌛ Tiempo total que toma en resolver el problema: \033[92;1m{total_time}\033[0m\n")
 
     # Escribimos en el archivo times.txt el tiempo que tomo resolver el problema con el nombre del archivo
-    os.system(f"echo '{file.name}\t{time_taken_1}\t{time_taken_2}\t{total_time}' >> times.txt")
+    os.system(f"echo '{file.name}\t{time_taken_1}\t{time_taken_2}\t{total_time}\tSAT' >> times.txt")
 
 
 if __name__ == "__main__":
