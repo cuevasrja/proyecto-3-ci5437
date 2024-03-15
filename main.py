@@ -67,6 +67,7 @@ def main():
         print(
             "\033[91;1mERROR:\033[0m No hay suficientes dias y horas para planear las fechas de los partidos del torneo."
         )
+        os.system(f"echo '{file.name}\t-\t-\t-' >> times.txt")
         sys.exit(1)
 
     print(f" - Nombre del torneo: \033[92;1m'{t_name}'\033[0m")
@@ -93,6 +94,7 @@ def main():
         model: List[int] = solver.model()
         if all(n <= 0 for n in model):
             print("\033[91;1mERROR:\033[0m No hay solucion para el problema.")
+            os.system(f"echo '{file.name}\t-\t-\t-' >> times.txt")
             sys.exit(1)
         else:
             print("\033[92;1mEl problema ha sido resuelto exitosamente!\033[0m")
