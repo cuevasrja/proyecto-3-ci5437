@@ -73,7 +73,7 @@ else
         for ((i=0; i < $((N*10/N_FILES)); i++)); do printf "\033[92;1m=\033[0m"; done
         printf "\033[92;1m>\033[0m"
         printf "] %d%%\r" $((N*100/N_FILES))
-        python3 main.py $FILE > /dev/null
+        python3 main.py $FILE
         N=$((N+1))
     done
     printf "["
