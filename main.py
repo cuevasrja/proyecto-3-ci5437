@@ -52,8 +52,7 @@ def main():
     # el numero de participantes debe ser al menos 2, para que pueda ocurrir al menos un partido en el torneo
     if n < 2:
         print("\033[91;1mERROR:\033[0m El torneo debe tener al menos 2 participantes.")
-        os.system(f"echo '{file.name}\t-\t-\t-\tUNSAT' >> times.txt")
-        sys.exit(1)
+        solved = False
 
     # cantidad de dias que durara el torneo
     days: int = diff_days(start_date, end_date)
@@ -69,8 +68,7 @@ def main():
         print(
             "\033[91;1mERROR:\033[0m No hay suficientes dias y horas para planear las fechas de los partidos del torneo."
         )
-        os.system(f"echo '{file.name}\t-\t-\t-\tUNSAT' >> times.txt")
-        sys.exit(1)
+        solved = False
 
     print(f" - Nombre del torneo: \033[92;1m'{t_name}'\033[0m")
     print(f" - Participantes: \033[92;1m{', '.join(participants)}\033[0m")
@@ -80,7 +78,9 @@ def main():
 
     time_start: datetime = datetime.now()
     # traducir las restricciones a formato DIMACS
-    cnf_file: str = todimacs(n, days, hours, file)
+    cnf_file: str 
+    if solved:
+        cnf_file = make_cnf(data)
     print("Archivo de restricciones en formato DIMACS creado \033[92;1mexitosamente!\033[0m")
 
     # imprimir tiempo en que toma en traducir las restricciones a formato DIMACS
@@ -92,16 +92,18 @@ def main():
     print("\n\033[1;33mResolviendo el problema...\033[0m\n")
     time_start: datetime = datetime.now()
     solver: Glucose41 = Glucose41()
+    solver.load_cnf(cnf_file)
 
-    if solver.load_cnf(cnf_file) and solver.solve():
+    if solved and solver.solve():
         model: List[int] = solver.model()
         if all(n <= 0 for n in model):
-            time_end: datetime = datetime.now()
-            time_taken_2: str = str(time_end - time_start)
             print("\033[91;1mERROR:\033[0m No hay solucion para el problema.")
             solved = False
-        else:
-            print("\033[92;1mEl problema ha sido resuelto exitosamente!\033[0m")
+    else:
+        print("\033[91;1mERROR:\033[0m No se pudo resolver el problema.")
+        solved = False
+    if solved:
+        print("\033[92;1mEl problema ha sido resuelto exitosamente!\033[0m")
     # Calcular el tiempo que tomo resolver el problema SAT
     time_end: datetime = datetime.now()
     time_taken_2: str = str(time_end - time_start)
@@ -121,6 +123,8 @@ def main():
     result: str = "SAT" if solved else "UNSAT"
     # Escribimos en el archivo times.txt el tiempo que tomo resolver el problema con el nombre del archivo
     os.system(f"echo '{file.name}\t{time_taken_1}\t{time_taken_2}\t{total_time}\t{result}' >> times.txt")
+
+    return
 
 
 if __name__ == "__main__":
