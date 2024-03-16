@@ -10,6 +10,7 @@ from modules.ics_converter import *
 from modules.time_converter import *
 
 def main():
+    solved: bool = True
     total_time_start: datetime = datetime.now()
     print("\n👋 \033[92;1m¡Bienvenido al Planificador de Torneos!\033[0m\n")
 
@@ -51,6 +52,7 @@ def main():
     # el numero de participantes debe ser al menos 2, para que pueda ocurrir al menos un partido en el torneo
     if n < 2:
         print("\033[91;1mERROR:\033[0m El torneo debe tener al menos 2 participantes.")
+        os.system(f"echo '{file.name}\t-\t-\t-\tUNSAT' >> times.txt")
         sys.exit(1)
 
     # cantidad de dias que durara el torneo
@@ -74,6 +76,7 @@ def main():
     print(f" - Participantes: \033[92;1m{', '.join(participants)}\033[0m")
     print(f" - El torneo durara \033[92;1m{days}\033[0m dias")
     print(f" - Con \033[92;1m{hours}\033[0m horas por dia\n")
+    print(f" - Se van a jugar \033[92;1m{n * (n - 1)}\033[0m partidos en total\n")
 
     time_start: datetime = datetime.now()
     # traducir las restricciones a formato DIMACS
@@ -96,8 +99,7 @@ def main():
             time_end: datetime = datetime.now()
             time_taken_2: str = str(time_end - time_start)
             print("\033[91;1mERROR:\033[0m No hay solucion para el problema.")
-            os.system(f"echo '{file.name}\t{time_taken_1}\t{time_taken_2}\t-\tUNSAT' >> times.txt")
-            sys.exit(1)
+            solved = False
         else:
             print("\033[92;1mEl problema ha sido resuelto exitosamente!\033[0m")
     # Calcular el tiempo que tomo resolver el problema SAT
@@ -105,17 +107,20 @@ def main():
     time_taken_2: str = str(time_end - time_start)
 
     print(f"\n⌛ Tiempo que tomo Glucose en resolver el problema: \033[92;1m{time_taken_2}\033[0m")
-    model: List[int] = solver.model()
-    # Convertir las variables a formato ICS
-    print("\n\033[1;33mConvirtiendo las variables a formato ICS...\033[0m\n")
-    make_ics(data, model)
+    model: List[int]
+    if solved:
+        model = solver.model()
+        # Convertir las variables a formato ICS
+        print("\n\033[1;33mConvirtiendo las variables a formato ICS...\033[0m\n")
+        make_ics(data, model)
 
     time_end: datetime = datetime.now()
     total_time: str = str(time_end - total_time_start)
     print(f"\n⌛ Tiempo total que toma en resolver el problema: \033[92;1m{total_time}\033[0m\n")
 
+    result: str = "SAT" if solved else "UNSAT"
     # Escribimos en el archivo times.txt el tiempo que tomo resolver el problema con el nombre del archivo
-    os.system(f"echo '{file.name}\t{time_taken_1}\t{time_taken_2}\t{total_time}\tSAT' >> times.txt")
+    os.system(f"echo '{file.name}\t{time_taken_1}\t{time_taken_2}\t{total_time}\t{result}' >> times.txt")
 
 
 if __name__ == "__main__":
