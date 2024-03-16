@@ -75,7 +75,7 @@ def main():
     print(f" - Nombre del torneo: \033[92;1m'{t_name}'\033[0m")
     print(f" - Participantes: \033[92;1m{', '.join(participants)}\033[0m")
     print(f" - El torneo durara \033[92;1m{days}\033[0m dias")
-    print(f" - Con \033[92;1m{hours}\033[0m horas por dia\n")
+    print(f" - Con \033[92;1m{hours}\033[0m horas por dia")
     print(f" - Se van a jugar \033[92;1m{n * (n - 1)}\033[0m partidos en total\n")
 
     time_start: datetime = datetime.now()
