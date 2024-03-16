@@ -24,7 +24,7 @@ def generate_random_team_name():
     return f"{prefix} {city} {suffix}"
 
 tournaments = [generate_random_tournament_name() for _ in range(5)]
-teams = set([generate_random_team_name() for _ in range(random.randint(2, 1000))])
+teams = set([generate_random_team_name() for _ in range(random.randint(2, 25))])
 
 
 start_dates = [datetime(2000, 1, 1), datetime(2030, 12, 31), datetime(2022, 9, 1), datetime(2024, 14, 3), datetime(2010, 10, 10)]
