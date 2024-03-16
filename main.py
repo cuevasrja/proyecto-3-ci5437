@@ -80,7 +80,7 @@ def main():
     # traducir las restricciones a formato DIMACS
     cnf_file: str 
     if solved:
-        cnf_file = make_cnf(data)
+        cnf_file = todimacs(n, days, hours, file)
     print("Archivo de restricciones en formato DIMACS creado \033[92;1mexitosamente!\033[0m")
 
     # imprimir tiempo en que toma en traducir las restricciones a formato DIMACS
