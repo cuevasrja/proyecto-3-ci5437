@@ -92,7 +92,8 @@ def main():
     print("\n\033[1;33mResolviendo el problema...\033[0m\n")
     time_start: datetime = datetime.now()
     solver: Glucose41 = Glucose41()
-    solver.load_cnf(cnf_file)
+    if solved:
+        solver.load_cnf(cnf_file)
 
     if solved and solver.solve():
         model: List[int] = solver.model()

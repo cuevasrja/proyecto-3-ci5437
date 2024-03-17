@@ -74,7 +74,8 @@ else
         printf "\033[92;1m>\033[0m"
         printf "] %d%%\r" $((N*100/N_FILES))
         python3 main.py $FILE
-	rm $(echo $FILE | tr "json" "cnf")
+        # Eliminamos el archivo .cnf
+	    rm -f ${FILE%.json}.cnf
         N=$((N+1))
     done
     printf "["
