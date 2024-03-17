@@ -1,3 +1,22 @@
+# Uso
+
+Para ejecutar el programa, se debe tener instalado el lenguaje de programación Python y el paquete pip. Luego, se debe ejecutar el siguiente comando en la terminal:
+
+```bash
+pip install -r requirements.txt # Opcional
+```
+
+Luego, se debe ejecutar el siguiente comando en la terminal:
+
+```bash
+./runner.sh <input_file>
+```
+
+Donde `<input_file>` es el archivo de entrada en formato JSON. El programa generará un archivo con extensión `.ics` con la solución del problema.
+
+> [!NOTE] 
+ Puede ejecutar el programa solo ejecutando el script `./runner.sh` y este instalará las dependencias necesarias.
+
 # Objetivo
 
 El objetivo de este proyecto es aprender a modelar un problema en CNF, y a usar un SAT solver para resolverlo, así como traducir la salida del SAT solver a un formato legible.

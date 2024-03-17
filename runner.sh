@@ -47,7 +47,7 @@ while read -r line; do
     PACKAGE=$(echo $line | cut -d'=' -f1)
     if ! pip3 show $PACKAGE > /dev/null 2>&1; then
         printf "\033[93;1mInstalando:\033[0m $PACKAGE\n"
-        pip3 install $line > /dev/null
+        pip3 install $line > /dev/null 2>&1
     fi
     N=$((N+1))
     # Barra de progreso
@@ -75,7 +75,7 @@ else
         printf "] %d%%\r" $((N*100/N_FILES))
         python3 main.py $FILE
         # Eliminamos el archivo .cnf
-	    rm -f ${FILE%.json}.cnf
+	    rm -f $(echo $FILE | sed 's/.json/.cnf/')
         N=$((N+1))
     done
     printf "["
