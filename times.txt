@@ -7,3 +7,12 @@ benchmarks/eredivise.json	0:15:15.228579	-	-	UNSAT
 benchmarks/ligue1.json	0:10:35.685141	-	-	UNSAT
 benchmarks/ligamx.json	0:07:40.600678	-	-	UNSAT
 benchmarks/laliga.json	0:32:01.646674	-	-	UNSAT
+benchmarks/premier.json	0:10:56.436190	-	-	UNSAT
+benchmarks/primeiraliga.json	0:03:04.341573	0:10:33.809737	0:13:39.147340	SAT
+benchmarks/scotish_premier.json	0:00:40.474532	0:00:13.650842	0:00:54.226567	SAT
+benchmarks/Global-Cup.json	0:00:09.949137	0:00:03.203788	0:00:14.602324	SAT
+benchmarks/International-Cup.json	0:01:10.684670	0:00:17.744379	0:01:29.068446	SAT
+benchmarks/Ultimate-Challenge.json	0:00:00.783916	0:00:00.206711	0:00:04.005258	SAT
+benchmarks/seriea.json	0:07:49.474260	-	-	UNSAT
+benchmarks/Global-Championship.json	0:00:00.000004	0:00:00.000004	0:00:00.000008	UNSAT
+benchmarks/World-Challenge.json	0:08:39.024021	-	-	UNSAT
